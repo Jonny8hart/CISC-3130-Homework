@@ -1,4 +1,4 @@
-public class hw1 {
+public class hw2 {
     public static void main(String[] args) {
         int[] numbers = {12, 7, 5, 3, 9, 2, 1, 8, 4, 6, 11, 10};
 

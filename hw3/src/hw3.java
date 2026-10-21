@@ -1,4 +1,4 @@
-public class hw2 {
+public class hw3 {
     public static void main(String[] args) throws Exception {
         // --------------------
         // Stack Demonstration
