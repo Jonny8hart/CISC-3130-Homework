@@ -1,0 +1,28 @@
+Method	        Structures it touches	            Big-O	    Reason
+addSong()	    HashMap, LinkedList	                O(1) avg.	HashMap lookup/insertion and adding to the end are constant time
+findSong()	    HashMap	                            O(1) avg.	Uses hashing to find a song by ID
+play()	        HashMaps, Stack	                    O(1) avg.	Looks up the song, saves history, updates its count, and updates a recent deque limited to 10 songs
+queueLater()	HashMap, Deque	                    O(1) avg.	Looks up a song and adds it to the back
+queueNext()	    HashMap, Deque	                    O(1) avg.	Looks up a song and adds it to the front
+next()	        Deque, LinkedList, HashMaps, Stack	O(n + q)	May scan the playlist and skip removed queued songs
+back()	        Stack, Deque, HashMaps	            O(h)	    May skip removed songs in history
+removeSong()	LinkedList, HashMaps	            O(n)	    LinkedList must search for the song to remove
+showPlaylist()	LinkedList, ArrayList	            O(n)	    Visits every song to collect its title
+
+n = playlist songs
+q = queued entries
+h = history entries
+
+Structure 1: Hashmap (Library)
+
+I used a HashMap to store each song with its own ID as a key. This lets the music player find a song in O(1) average time by hashing the ID,
+rather than searching the entire playlist. Using an array would require checking each element one by one, which takes O(n) time. 
+I reused Java’s built-in HashMap because implementing my own would not improve the time complexity, and Java’s version already provides 
+the functionality needed to connect songs with IDs.
+
+Structure 2: ArrayDeque (Up Next)
+
+I used an ArrayDeque for the Up Next queue because it allows songs to be added or removed from either end in O(1) amortized time.
+This is useful because queueNext() adds songs to the front, while queueLater() adds them to the back. With an array, adding a song 
+to the front would require shifting elements, which takes O(n) time. I reused Java’s built-in ArrayDeque because it provides these 
+efficient operations without requiring me to implement a deque using linked nodes.

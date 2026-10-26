@@ -40,10 +40,23 @@ public class MusicPlayer {
         return titles;
     }
 
-    private void start(Song song){
+    
+    private void start(Song song) {
         current = song;
         playCounts.merge(song.id, 1, Integer::sum);
+
+        // Remove song if already in recent
+        recent.remove(song);
+
+        // Add most recently played song to front
+        recent.addFirst(song);
+
+        // Keep only 10 most recent songs
+        if (recent.size() > 10) {
+            recent.removeLast();
+        }
     }
+
 
     public Song play(String id){
         Song song = library.get(id);
@@ -121,11 +134,22 @@ public class MusicPlayer {
 
             int index = playlist.indexOf(current);
 
-            if (index == -1 || index + 1 >= playlist.size()) {
+
+            if (index == -1) {
                 return null;
             }
-
-            nextSong = playlist.get(index + 1);
+            
+            //added repeat part for extra credit
+            if (index + 1 >= playlist.size()) {
+                if (repeat && !playlist.isEmpty()) {
+                    nextSong = playlist.getFirst();
+                } else {
+                    return null;
+                }
+            } 
+            else {
+                nextSong = playlist.get(index + 1);
+            }
         }
 
         if(current != null) {
@@ -134,5 +158,82 @@ public class MusicPlayer {
     
         start(nextSong);
         return nextSong;
+    }
+
+    public Song back(){
+        Song previous = null;
+        while(!history.isEmpty()) {
+            Song song = history.pop();
+
+            if(library.containsKey(song.id)) {
+                previous = song;
+                break;
+            }
+        }
+        if(previous == null) {
+            return null;
+        }
+
+        if(current != null) {
+            upNext.addFirst(current);
+        }
+
+        start(previous);
+
+        return previous;
+    }
+
+    public List<String> showHistory() {
+        List<String> titles = new ArrayList<>();
+
+        for(Song song : history) {
+            if(library.containsKey(song.id)) {
+                titles.add(song.title);
+            }
+        }
+
+        return titles;
+    }
+
+    public boolean removeSong(String id){
+        Song song = library.get(id);
+
+        if(song == null) {
+            return false;
+        }
+
+        if(current == song) {
+            return false;
+        }
+
+        playlist.remove(song);
+        library.remove(id);
+        playCounts.remove(id);
+
+        return true;
+    }
+
+    //Extra Credit 1 (Repeat)
+
+    private boolean repeat = false;
+
+    public void setRepeat(boolean enabled) {
+        repeat = enabled;
+    }
+
+    //Extra Credit 2 (Recently Played)
+
+    private Deque<Song> recent = new ArrayDeque<>();
+
+    public List<String> recentlyPlayed() {
+        List<String> titles = new ArrayList<>();
+
+        for(Song song : recent) {
+            if(library.containsKey(song.id)) {
+                titles.add(song.title);
+            }
+        }
+
+        return titles;
     }
 }

@@ -27,6 +27,7 @@ public class Test {
         System.out.println("play s9: " + player.play("s9"));
         System.out.println("next: " + player.next());
         System.out.println("next: " + player.next());
+        System.out.println("history: " + player.showHistory());
 
         System.out.println("--- 4. Up next ---");
 
@@ -39,5 +40,43 @@ public class Test {
 
         System.out.println("next: " + player.next());
         System.out.println("now playing: " + player.nowPlaying()); 
+        System.out.println("history: " + player.showHistory());
+
+        System.out.println("--- 5. Back button ---");
+        System.out.println("back: " + player.back());
+        System.out.println("up next: " + player.showUpNext());
+        System.out.println("history: " + player.showHistory());
+
+        System.out.println("--- 6. Remove songs ---");
+        System.out.println("remove s5: " + player.removeSong("s5"));
+        System.out.println("remove current (s3): " +
+            player.removeSong("s3"));
+        System.out.println("remove s9: " + player.removeSong("s9"));
+        System.out.println("playlist: " + player.showPlaylist());
+        System.out.println("up next: " + player.showUpNext());
+
+        
+        System.out.println("--- 7. Removed songs are skipped ---");
+        System.out.println("next: " + player.next());
+        System.out.println("next: " + player.next());
+        System.out.println("next at end: " + player.next());
+        System.out.println("now playing: " + player.nowPlaying());
+        System.out.println("back: " + player.back());
+        System.out.println("up next: " + player.showUpNext());
+
+        System.out.println("--- 8. Play counts ---");
+        System.out.println("s1: " + player.playCount("s1"));
+        System.out.println("s3: " + player.playCount("s3"));
+        System.out.println("s6: " + player.playCount("s6"));
+        System.out.println("s5 (removed): " + player.playCount("s5"));
+
+        MusicPlayer empty = new MusicPlayer();
+
+        System.out.println("--- 9. Empty player ---");
+        System.out.println("next: " + empty.next());
+        System.out.println("back: " + empty.back());
+        System.out.println("now playing: " + empty.nowPlaying());
+        System.out.println("playlist: " + empty.showPlaylist());
+
     }
 }
